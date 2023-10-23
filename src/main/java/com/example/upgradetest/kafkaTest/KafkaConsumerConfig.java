@@ -9,6 +9,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.converter.JsonMessageConverter;
+import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
@@ -18,26 +20,26 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    @Value("${spring.kafka.bootstrap-servers}")
+    @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String servers;
-
     @Bean
-    public ConsumerFactory<String, Chatmessage> consumerFactory() {
-
-        Map<String, Object> config = new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, "groupId");
-
-        return new DefaultKafkaConsumerFactory<>(
-                config,
-                new StringDeserializer(),
-                new JsonDeserializer<>(Chatmessage.class));
+    public RecordMessageConverter converter(){
+        return new JsonMessageConverter();
     }
 
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Chatmessage> kafkaListener() {
-        ConcurrentKafkaListenerContainerFactory<String, Chatmessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
-        return factory;
-    }
+//    @Bean
+//    public ConsumerFactory<String, Chatmessage> consumerFactory() {
+//        Map<String, Object> config = new HashMap<>();
+//        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
+//        config.put(ConsumerConfig.GROUP_ID_CONFIG, "testgroup");
+//
+//        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(Chatmessage.class));
+//    }
+//
+//    @Bean
+//    public ConcurrentKafkaListenerContainerFactory<String, Chatmessage> kafkaListener() {
+//        ConcurrentKafkaListenerContainerFactory<String, Chatmessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+//        factory.setConsumerFactory(consumerFactory());
+//        return factory;
+//    }
 }
