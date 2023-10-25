@@ -10,20 +10,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/upgrade")
+@RequestMapping("/api/v1/upgrade")
 public class UpgradeController {
 
     private final AnimalService animalService;
     private final BuildingService buildingService;
 
-    @PostMapping("/animal/save")
+    @PostMapping("/animal")
     public void save(@RequestBody SaveRequest request){
         animalService.save(request);
     }
 
-    @PostMapping("/animal/{userId}/{animalId}")
-    public ResultResponse upgrade(@PathVariable("userId") Integer userId, @PathVariable("animalId") Integer animalId){
-        return animalService.upgrade(userId, animalId);
+    @PostMapping("/animal/{userId}/{animalId}") // body
+    public ResultResponse upgradeAnimal(@PathVariable("userId") Integer userId, @PathVariable("animalId") Integer animalId){
+        return animalService.upgradeAnimal(userId, animalId);
+    }
+
+    @PostMapping("/animal/{userId}/{buildingId}") // body
+    public ResultResponse upgradeBuilding(@PathVariable("userId") Integer userId, @PathVariable("buildingId") Integer buildingId){
+        return buildingService.upgradeBuilding(userId, buildingId);
     }
 
 

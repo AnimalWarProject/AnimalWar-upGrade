@@ -1,12 +1,10 @@
 package com.example.upgradetest.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter @Builder @Entity
+@Data
+@Builder @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "buildings")
