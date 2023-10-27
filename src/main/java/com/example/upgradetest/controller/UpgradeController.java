@@ -1,6 +1,7 @@
 package com.example.upgradetest.controller;
 
 import com.example.upgradetest.domain.request.SaveRequest;
+import com.example.upgradetest.domain.request.UpgradeRequest;
 import com.example.upgradetest.domain.response.ResultResponse;
 import com.example.upgradetest.service.AnimalService;
 import com.example.upgradetest.service.BuildingService;
@@ -16,17 +17,17 @@ public class UpgradeController {
     private final AnimalService animalService;
     private final BuildingService buildingService;
 
-    @PostMapping("/animal")
-    public void save(@RequestBody SaveRequest request){
-        animalService.save(request);
+//    @PostMapping("/animal")
+//    public void save(@RequestBody SaveRequest request){
+//        animalService.save(request);
+//    }
+
+    @PostMapping("/animal") // 동물 강화
+    public ResultResponse upgradeAnimal(@RequestBody UpgradeRequest request){
+        return animalService.upgradeAnimal(request);
     }
 
-    @PostMapping("/animal/{userId}/{animalId}") // body
-    public ResultResponse upgradeAnimal(@PathVariable("userId") Integer userId, @PathVariable("animalId") Integer animalId){
-        return animalService.upgradeAnimal(userId, animalId);
-    }
-
-    @PostMapping("/animal/{userId}/{buildingId}") // body
+    @PostMapping("/building/{userId}/{buildingId}") // 건물 강화
     public ResultResponse upgradeBuilding(@PathVariable("userId") Integer userId, @PathVariable("buildingId") Integer buildingId){
         return buildingService.upgradeBuilding(userId, buildingId);
     }

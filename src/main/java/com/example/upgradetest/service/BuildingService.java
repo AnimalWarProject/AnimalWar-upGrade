@@ -17,7 +17,7 @@ public class BuildingService {
         BuildingInventory findBuilding = buildingRepository.findByUserIdAndBuildingId(userId, buildingId).orElseThrow(() -> new RuntimeException("에러")); // userId, buildingId 없을수도있다.
         ResultResponse resultResponse = upgradeMethod(findBuilding);
 //       todo : resultResponse kafka를 통해서 user에 보내줘야한다.
-        return new ResultResponse(resultResponse.name(), resultResponse.grade(), resultResponse.buff());
+        return new ResultResponse(resultResponse.name(), resultResponse.buff());
     }
     private ResultResponse upgradeMethod(BuildingInventory findBuilding) { // 강화하는 매소드
         final int randomNumber = (int)(Math.random()*100); // 랜덤숫자
@@ -31,7 +31,7 @@ public class BuildingService {
         }else {
             System.out.println("강화 실패");
         }
-        return new ResultResponse(findBuilding.getName(), findBuilding.getGrade(), findBuilding.getBuff()+1);
+        return new ResultResponse(findBuilding.getName(),findBuilding.getBuff()+1);
     }
     private void update(BuildingInventory findBuilding, int buff){ // 강화수치 업데이트
         findBuilding.setBuff(buff);

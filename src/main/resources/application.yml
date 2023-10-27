@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8081
 
 spring:
   datasource:
@@ -11,10 +11,7 @@ spring:
       ddl-auto: update
     show-sql: true
   kafka:
-    consumer:
-      bootstrap-servers: localhost:9092
-      group-id: foo
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-      auto-offset-reset: earliest
-      enable-auto-commit: true
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

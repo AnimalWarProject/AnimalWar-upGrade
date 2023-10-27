@@ -13,7 +13,7 @@ public class BuildingInventory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // 건물 중간테이블
     private Long id;
     private Long userId;
-    private Long animalId;
+    private Long buildingId;
     private String name;
     private String grade;
     private Integer attackPower;
