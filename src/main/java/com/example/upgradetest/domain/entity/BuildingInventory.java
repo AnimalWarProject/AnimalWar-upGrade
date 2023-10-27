@@ -1,12 +1,10 @@
 package com.example.upgradetest.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter @Builder @Entity
+@Data
+@Builder @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "buildings")
@@ -15,7 +13,7 @@ public class BuildingInventory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // 건물 중간테이블
     private Long id;
     private Long userId;
-    private Long animalId;
+    private Long buildingId;
     private String name;
     private String grade;
     private Integer attackPower;
