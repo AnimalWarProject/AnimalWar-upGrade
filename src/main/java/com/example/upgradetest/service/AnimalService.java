@@ -1,9 +1,7 @@
 package com.example.upgradetest.service;
 
-import com.example.upgradetest.domain.dto.SendResultUpgrade;
-import com.example.upgradetest.domain.entity.AnimalInventory;
+import com.example.upgradetest.domain.entity.Animal;
 import com.example.upgradetest.domain.request.UpgradeRequest;
-import com.example.upgradetest.domain.response.ResultResponse;
 import com.example.upgradetest.kafka.KafkaProducerService;
 import com.example.upgradetest.repository.AnimalRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,22 +15,15 @@ public class AnimalService {
     private final AnimalRepository animalRepository;
     private final KafkaProducerService kafkaProducerService;
 
+    public void upgradeAnimal(UpgradeRequest request) {
+        Animal byitemId = animalRepository.findByitemId(request.itemId());
+        if (byitemId != null){
+            Integer resultUpgrade = upgradeMethod(request.buff());
+            kafkaProducerService.sendResult(new UpgradeRequest(request.userUUID(), request.itemId(), resultUpgrade));
+        }else {
+            System.out.println("잘못된 정보입니다.");
+        }
 
-
-
-//    public void save(SaveRequest request) { // Test용
-//        animalRepository.save(request.toEntity());
-//    }
-
-
-    public ResultResponse upgradeAnimal(UpgradeRequest request) {
-        AnimalInventory findAnimal = animalRepository.findById(request.animalId())
-                .orElseThrow(() -> new NoSuchElementException("잘못된 동물.")); // animalId 없을수도 있습니다.
-        Integer resultUpgrade = upgradeMethod(request.buff());
-
-        // Kafka를 통해 결과 전송
-        kafkaProducerService.sendResult(new SendResultUpgrade(request.userUUID(), request.animalId(), resultUpgrade));
-        return new ResultResponse(findAnimal.getName(), resultUpgrade);
     }
 
     private Integer upgradeMethod(Integer upgrade) {
@@ -50,9 +41,4 @@ public class AnimalService {
         }
         return upgrade;
     }
-
-
-//    private void update(AnimalInventory findAnimal, int buff){ // 강화수치 업데이트
-//        findAnimal.setBuff(buff);
-//    }
 }
