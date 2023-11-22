@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record UpgradeRequest(
         UUID userUUID,
-        Long animalId,
+        Long itemId,
         Integer buff
 ) {
 }
