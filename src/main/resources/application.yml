@@ -4,7 +4,7 @@ spring:
   application:
     name: upgrade-service
   datasource:
-    url: jdbc:mysql://localhost:3306/inventory?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/upgrade?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: 1q2w3e4r!!
   jpa:
@@ -16,7 +16,7 @@ spring:
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-      group-id: UpGrade
+      group-id: upgrade
       auto-offset-reset: earliest
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
