@@ -1,7 +1,7 @@
 package com.example.upgradetest.kafka;
 
 
-import com.example.upgradetest.domain.request.UpgradeRequest;
+import com.example.upgradetest.domain.request.AnimalUpgradeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaProducerService {
     private static final String TOPIC = "resultUpgrade";
-    private final KafkaTemplate<String, UpgradeRequest> kafkaTemplate;
+    private final KafkaTemplate<String, AnimalUpgradeRequest> kafkaTemplate;
 
-    public void sendResult(UpgradeRequest result) {
+    public void sendResult(AnimalUpgradeRequest result) {
         System.out.println("Producer : " + result.userUUID() + ", " + result.itemId() + ", " + result.buff());
         kafkaTemplate.send(TOPIC, result);
     }
