@@ -7,22 +7,27 @@ import com.example.upgradetest.repository.AnimalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor
 public class AnimalService {
     private final AnimalRepository animalRepository;
     private final KafkaProducerService kafkaProducerService;
 
-    public void upgradeAnimal(AnimalUpgradeRequest request) {
+    public boolean upgradeAnimal(AnimalUpgradeRequest request) {
+        boolean result = false;
         Animal byitemId = animalRepository.findByitemId(request.itemId());
         if (byitemId != null){
             Integer resultUpgrade = upgradeMethod(request.buff());
-            kafkaProducerService.sendResult(new AnimalUpgradeRequest(request.userUUID(), request.itemId(), resultUpgrade));
+            if (resultUpgrade > request.buff()){
+                kafkaProducerService.sendResult(new AnimalUpgradeRequest(request.userUUID(), request.itemId(), resultUpgrade));
+                result = true;
+            }else {
+                System.out.println("강화실패");
+            }
         }else {
             System.out.println("잘못된 정보입니다.");
         }
-
+        return result;
     }
 
     private Integer upgradeMethod(Integer upgrade) {
