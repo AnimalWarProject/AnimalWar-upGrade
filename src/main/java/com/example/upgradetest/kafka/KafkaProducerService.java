@@ -13,7 +13,6 @@ public class KafkaProducerService {
     private final KafkaTemplate<String, AnimalUpgradeRequest> kafkaTemplate;
 
     public void sendResult(AnimalUpgradeRequest result) {
-        System.out.println("Producer : " + result.userUUID() + ", " + result.itemId() + ", " + result.buff());
         kafkaTemplate.send(TOPIC, result);
     }
 
